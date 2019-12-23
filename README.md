@@ -6,5 +6,5 @@
     Ascânio Sávio de Araujo Neves - asan2@ic.ufal.br
     João Victor de Alarcão Ayalla Alcântara - jvaaa@ic.ufal.br
     Jorge Firmo Soares Neto       - 
-    Gabriel Luis Souza            -
+    Gabriel Luiz Leite Souza      - glls@ic.ufal.br
     Danilo Vasconcelos Freire     -

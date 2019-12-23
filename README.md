@@ -7,4 +7,4 @@
     João Victor de Alarcão Ayalla Alcântara - jvaaa@ic.ufal.br
     Jorge Firmo Soares Neto                 - jfsn@ic.ufal.br
     Gabriel Luiz Leite Souza                - glls@ic.ufal.br
-    Danilo Vasconcelos Freire               -
+    Danilo Vasconcelos Freire               - dvf@ic.ufal.br

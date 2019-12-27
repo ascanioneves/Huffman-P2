@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <limits.h>
-#include "hash.h"
+#include "Hash.h"
 #include "types.h"
 
 hash *create_hash_table ()

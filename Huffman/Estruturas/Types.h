@@ -1,7 +1,7 @@
 typedef struct huff_heap huff_heap;
 typedef struct huff_node huff_node;
 typedef struct hash hash ;
-typedef struct item item ;
+typedef struct hash_node hash_node;
 
 struct huff_node
 {
@@ -14,7 +14,7 @@ struct huff_heap
   huff_node *data[257];
 };
 
-struct item 
+struct hash_node
 {
     void *element ;
     unsigned int shift_bit ;
@@ -23,5 +23,5 @@ struct item
 };
 struct hash
 {
-    item *table[500] ;
+    hash_node *table[500] ;
 };

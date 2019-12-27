@@ -5,7 +5,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <limits.h>
-#include "types.h"
+#include "Types.h"
 
 hash *create_hash_table () ; // função para criar a hash 
 

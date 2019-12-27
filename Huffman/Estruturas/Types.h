@@ -23,5 +23,5 @@ struct hash_node
 };
 struct hash
 {
-    hash_node *table[500] ;
+    hash_node *table[257] ;
 };

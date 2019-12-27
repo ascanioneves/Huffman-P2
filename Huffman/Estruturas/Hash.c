@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <limits.h>
 #include "Hash.h"
-#include "types.h"
+#include "Types.h"
 
 hash *create_hash_table ()
 {

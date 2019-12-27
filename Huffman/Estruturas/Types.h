@@ -1,3 +1,6 @@
+#ifndef TYPES_H_
+#define TYPES_H_
+
 typedef struct huff_heap huff_heap;
 typedef struct huff_node huff_node;
 typedef struct hash hash ;
@@ -11,17 +14,20 @@ struct huff_node
 };
 struct huff_heap 
 {
+  int size;
   huff_node *data[257];
 };
 
 struct hash_node
 {
-    void *element ;
-    unsigned int shift_bit ;
-    int bits ;
-    int frequencia ;
+  void *element ;
+  unsigned int shift_bit ;
+  int bits ;
+  int frequencia ;
 };
 struct hash
 {
-    hash_node *table[257] ;
+  hash_node *table[257] ;
 };
+
+#endif

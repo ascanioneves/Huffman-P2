@@ -3,9 +3,9 @@
 #include "Types.h"
 
 // função para criar a hash.
-extern hash* create_hash_table(); 
+hash* create_hash_table(); 
 
 // Função que incrementa a frequência caso o nó já exista, caso contrário chama a create_node().
-extern void put_hash(hash *ht , unsigned char *element);
+void put_hash(hash *ht , unsigned char *element);
 
 #endif

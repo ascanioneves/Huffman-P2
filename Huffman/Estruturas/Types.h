@@ -13,6 +13,7 @@ struct huff_heap
 {
   huff_node *data[257];
 };
+
 struct item 
 {
     void *element ;

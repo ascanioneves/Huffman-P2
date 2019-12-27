@@ -1,3 +1,6 @@
+#ifndef heap_h
+#define heap_h
+
 #include "Types.h"
 
 //Retorna 1 se a heap está vazia e 0 caso contrário.
@@ -31,3 +34,5 @@ extern void enqueue(huff_heap *heap, huff_node *node);
 //Função que remove logicamente a raiz da heap e automaticamente restabelece a propriedade da min-heap caso 
 //a mesma tenha sido cancelada. Caso a heap esteja vazia, a função retorna nulo como sinalizador de erro.
 extern huff_node* dequeue(huff_heap *heap);
+
+#endif

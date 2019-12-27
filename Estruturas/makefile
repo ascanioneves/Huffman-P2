@@ -1,0 +1,1 @@
+gcc HuffmanTree.c HuffmanHash.c HuffmanHeap.c -o huffman

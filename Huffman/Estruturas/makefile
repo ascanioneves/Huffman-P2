@@ -1,9 +1,1 @@
-COMPRESS = Huff/Compress.c
-DESCOMPRESS = Huff/Descompress.c
-BINARY_TREE = Estruturas/HuffmanTree.c
-HASH = Estruturas/HuffmanHash.c
-HEAP = Estruturas/HuffmanHeap.c
-MAIN = Huff/Main.c
-
-compile_huffman:
-	gcc $(COMPRESS) $(BINARY_TREE) $(HASH) $(HEAP) $(MAIN) -o huffman
+gcc Huff/Compress.c Estruturas/HuffmanTree.c Estruturas/HuffmanHash.c Estruturas/HuffmanHeap.c Huff/Main.c -o huffman

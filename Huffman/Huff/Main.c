@@ -4,6 +4,8 @@
 #include "../Estruturas/HuffmanHash.h"
 #include "../Estruturas/HuffmanHeap.h"
 #include "../Estruturas/HuffmanTree.h"
+#include "Compress.h"
+#include "Descompress.h"
 
 void start()
 {
@@ -42,14 +44,14 @@ int main()
             printf("Digite o diretorio do arquivo a ser comprimido:\n");
             scanf(" %[^\n]s", file);
             printf("O arquivo: %s sera comprimido agora\n", file);
-            //compress();
+            compress(file);
         }
         else if(op == 2)
         {
             printf("Digite o diretorio do arquivo a ser descomprimido:\n");
             scanf(" %[^\n]s", file);
             printf("O arquivo: %s sera descomprimido agora\n", file);
-            //decompress();
+            //descompress();
         }
         else if(op == 3)
         {
@@ -59,7 +61,11 @@ int main()
         }
         else 
         {
-            printf("Operacao Invalida\n");
+            printf("Operacao Invalida\n\n");
+            printf("Digite '1' para compressao\n");
+            printf("Digite '2' para descompressao\n");
+            printf("Digite '3' para sair\n");
+            continue;
         }
     }
     

@@ -21,8 +21,8 @@ struct hash
 
 struct huff_heap 
 {
-  int size;
-  huff_node *data[257];
+    int size;
+    huff_node *data[257];
 };
 
 #endif

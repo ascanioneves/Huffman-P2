@@ -4,3 +4,4 @@
 #include "../Estruturas/HuffmanHash.h"
 #include "../Estruturas/HuffmanHeap.h"
 #include "../Estruturas/HuffmanTree.h"
+#include "Decompress.h"

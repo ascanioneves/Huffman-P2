@@ -24,7 +24,7 @@ huff_heap* create_heap();
 //Função que controla e mantém as propriedades da min-heap, recebe a heap e um indice, e, a partir disso
 //verifica se existe algum indice em que o pai tem a frequência maior que a dos filhos. Caso isso aconteça
 //essa função irá corrigir e para manter a propriedade da min-heap.
-void min_heapify(huff_heap *heap, int i);
+void max_heapify(huff_heap *heap, int i);
 
 //Função que insere um nó na heap, mantendo a propriedade da min-heap, se houver na inserção um caso em que
 //o pai seja maior que o filho, essa função corrigirá, fazendo trocas até que a propriedade da min-heap seja

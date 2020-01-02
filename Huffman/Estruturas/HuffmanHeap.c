@@ -15,11 +15,11 @@ void swap(huff_heap *heap, int i, int j)
     heap->data[j] = aux;
 }
 
-int get_parent_index(huff_heap *heap, int i) { return i / 2; }
+int get_parent_index(huff_heap *heap, int i) { return i >> 1; }
 
-int get_left_index(huff_heap *heap, int i) { return 2 * i; }
+int get_left_index(huff_heap *heap, int i) { return i << 1; }
 
-int get_right_index(huff_heap *heap, int i) { return (2 * i) + 1; }
+int get_right_index(huff_heap *heap, int i) { return (i << 1) + 1; }
 
 huff_heap *create_heap()
 {
@@ -31,22 +31,22 @@ huff_heap *create_heap()
     return new_heap;
 }
 
-void min_heapify(huff_heap *heap, int i)
+void min_heapify(huff_heap *heap, int i, int size)
 {
     int largest;
     int left_index = get_left_index(heap, i);
     int right_index = get_right_index(heap, i);
-    if(left_index <= heap->size && heap->data[left_index]->freq < heap->data[i]->freq)
+    if(left_index <= size && heap->data[left_index]->freq <= heap->data[i]->freq)
         largest = left_index;
     else
         largest = i;
     
-    if(right_index <= heap->size && heap->data[right_index]->freq < heap->data[largest]->freq)
+    if(right_index <= size && heap->data[right_index]->freq <= heap->data[largest]->freq)
         largest = right_index;
     if(heap->data[i]->freq != heap->data[largest]->freq)
     {
         swap(heap, i, largest);
-        min_heapify(heap, largest);
+        min_heapify(heap, largest, size);
     }
 }
 
@@ -62,7 +62,7 @@ void enqueue(huff_heap *heap, huff_node *node)
         heap->data[++heap->size] = node;
         int key_index = heap->size;
         int parent_index = get_parent_index(heap, key_index);
-        while(parent_index >= 1 && heap->data[key_index]->freq < heap->data[parent_index]->freq)
+        while(parent_index >= 1 && heap->data[key_index]->freq <= heap->data[parent_index]->freq)
         {
             swap(heap, key_index, parent_index);
             key_index = parent_index;
@@ -80,9 +80,9 @@ huff_node* dequeue(huff_heap *heap)
     }
     else
     {
-        huff_node *aux = heap->data[1];
-        heap->data[1] = heap->data[heap->size--];
-        min_heapify(heap, 1);
+        huff_node *aux = heap -> data[1];
+        heap -> data[1] = heap -> data[heap -> size--];
+        min_heapify(heap, 1, heap -> size);
         return aux;
     }
 }
@@ -91,9 +91,12 @@ huff_node* construct_tree(huff_heap *heap)
 {
     while(heap -> size > 1)
     {
-        huff_node *parent_node = merge_nodes(dequeue(heap), dequeue(heap));
+        huff_node *aux1 = dequeue(heap);
+        huff_node *aux2 = dequeue(heap);
+        huff_node *parent_node = merge_nodes(aux1, aux2);
         enqueue(heap, parent_node);
     }
     return heap -> data[1];
 }
+
 

@@ -9,7 +9,6 @@ struct huff_node
 {
     int freq;
     void *item;
-    unsigned int shift_bit;
     int bits;
     huff_node *left, *right;
 };

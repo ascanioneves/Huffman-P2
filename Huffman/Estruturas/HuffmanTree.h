@@ -9,4 +9,6 @@ huff_node* create_node(unsigned char *element);
 //Função que cria um nó que será pai dos dois primeiros elementos da heap
 huff_node* merge_nodes(huff_node *left, huff_node *right);
 
+void print_pre_order(huff_node *node);
+
 #endif

@@ -77,7 +77,9 @@ void compress(char *file_name)
     huff_node *root = construct_tree(new_heap);
     if(root == NULL)
         return;
+
     create_new_file_name(&file_name);
     FILE *write_file = fopen(file_name, "wb");
     print_pre_order(root, write_file);
+    fclose(write_file);
 }

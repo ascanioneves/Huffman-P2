@@ -1,1 +1,0 @@
-gcc Huff/Compress.c Estruturas/HuffmanTree.c Estruturas/HuffmanHash.c Estruturas/HuffmanHeap.c Huff/Main.c -o huffman

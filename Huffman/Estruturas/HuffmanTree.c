@@ -10,7 +10,8 @@ huff_node* create_node(unsigned char *element)
     new_node -> item = (void *) element;
     new_node -> left = NULL;
     new_node -> right = NULL;
-    new_node -> bits = 0;
+    new_node -> binary = 0; //todos bits ficam com 0
+    new_node -> size = 0;
     return new_node;
 }
 

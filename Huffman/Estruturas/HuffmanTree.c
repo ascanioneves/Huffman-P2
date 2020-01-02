@@ -26,15 +26,3 @@ huff_node* merge_nodes(huff_node *left, huff_node *right)
     return new_node;
 }
 
-void print_pre_order(huff_node *node)
-{   
-    if(node == NULL)
-        return;
-    else
-    {
-        printf("%c - %d\n", *(unsigned char *) node -> item, node -> freq);
-        print_pre_order(node -> left);
-        print_pre_order(node -> right);
-    }
-}
-

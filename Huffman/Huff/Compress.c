@@ -12,6 +12,21 @@ unsigned char set_bit(unsigned char c, int i)
     return mask | c;
 }
 
+void create_new_file_name(char **file_name)
+{
+    unsigned short size_1 = strlen(*file_name), size_2 = size_1 + 4;
+    char *new_file_name = (char *) calloc(size_2, sizeof(char));
+
+    for(int i = 0; i < size_1; i++)
+    {
+        if((*file_name)[i] == '.')
+            break;
+        new_file_name[i] = (*file_name)[i];
+    }
+    strcat(new_file_name, ".huff");
+    *file_name = new_file_name; // file_name = nome_arquivo.huff
+}
+
 hash* read(char *file_name, hash* hash)
 {
     FILE *file = fopen(file_name, "rb");
@@ -37,12 +52,16 @@ hash* read(char *file_name, hash* hash)
     return hash;
 }
 
-void printar_hash(hash *hs)
+void print_pre_order(huff_node *node, FILE *file)
 {
-    //printf("oi\n");
-    for(int i = 0; i < 256; i++)
-        if(hs -> table[i] != NULL) 
-            printf("%c - %d\n", (char) i, hs -> table[i] -> freq);
+    if(node == NULL)
+        return;
+    else
+    {
+        fprintf(file,"%c", *(unsigned char *) node -> item);
+        print_pre_order(node -> left, file);
+        print_pre_order(node -> right, file);
+    }
 }
 
 void compress(char *file_name)
@@ -56,5 +75,9 @@ void compress(char *file_name)
             enqueue(new_heap, new_hash -> table[i]);
 
     huff_node *root = construct_tree(new_heap);
-    print_pre_order(root);
+    if(root == NULL)
+        return;
+    create_new_file_name(&file_name);
+    FILE *write_file = fopen(file_name, "wb");
+    print_pre_order(root, write_file);
 }

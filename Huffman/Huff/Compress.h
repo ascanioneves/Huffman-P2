@@ -3,7 +3,7 @@
 
 void compress(char *file_name);
 
-hash* read(char *file_name, hash* hash);
+hash* read(char *file_name, hash* hash, FILE *file);
 
 void printar_hash(hash *hs);
 

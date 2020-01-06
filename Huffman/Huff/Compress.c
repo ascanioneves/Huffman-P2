@@ -14,6 +14,8 @@ unsigned char set_bit(unsigned char c, int i)
     return mask | c;
 }
 
+int is_leaf(huff_node *node) { return node -> left == NULL && node -> right == NULL; }
+
 void create_new_file_name(char **file_name)
 {
     unsigned short size_1 = strlen(*file_name), size_2 = size_1 + 5;
@@ -48,20 +50,19 @@ hash* read(char *file_name, hash* hash)
     return hash;
 }
 
-void new_map(huff_node *node, unsigned short count_size, unsigned short aux_binary, unsigned short *tree_size)
+void new_map(huff_node *node, unsigned short count_size, unsigned short aux_binary)
 {
     if(node == NULL)
         return;
     else
     {
-        *tree_size += 1;
-        if(node -> left == NULL && node -> right == NULL)
+        if(is_leaf(node))
         {
             node -> size = count_size;
             node -> binary = aux_binary;
         }
-        new_map(node -> left, count_size + 1, aux_binary << 1, tree_size);
-        new_map(node -> right, count_size + 1, (aux_binary << 1) + 1, tree_size);
+        new_map(node -> left, count_size + 1, aux_binary << 1);
+        new_map(node -> right, count_size + 1, (aux_binary << 1) + 1);
     }
 }
 
@@ -130,12 +131,33 @@ unsigned short compression(hash *new_hash, FILE *file, FILE *write_file)
         }    
         fprintf(write_file, "%c", print_byte);
     }
-    return 8 - bit_count == 8 ? 7 : 8 - bit_count; 
+    return 8 - bit_count == 8 ? 7 : 8 - bit_count; //não existe lixo com 8 bits 
+}
+
+void print_pre_order(huff_node *node, FILE *write_file, unsigned short *tree_size)
+{
+    if(node == NULL)
+        return;
+    else
+    {
+        *tree_size += 1;
+        if(is_leaf(node))
+        {
+            if(* (unsigned char *) node -> item == '*' || *(unsigned char *) node -> item == '\\')
+            {
+                fprintf(write_file, "\\");
+                *tree_size += 1;
+            }
+        }
+        fprintf(write_file, "%c", * (unsigned char *) node -> item);
+        print_pre_order(node -> left, write_file, tree_size);
+        print_pre_order(node -> right, write_file, tree_size);
+    }
 }
 
 void compress(char *file_name)
 {
-    unsigned short tree_size = 0;
+    unsigned short tree_size = 0, trash_size;
     hash *new_hash = create_hash_table();
     FILE *file = fopen(file_name, "rb");
     new_hash = read(file_name, new_hash);
@@ -146,14 +168,28 @@ void compress(char *file_name)
             enqueue(new_heap, new_hash -> table[i]);
 
     huff_node *root = construct_tree(new_heap);
+    
     if(root == NULL)
         return;
     
     create_new_file_name(&file_name);
-    new_map(root, 0, 0, &tree_size);
+    new_map(root, 0, 0);
     FILE *write_file = fopen(file_name, "wb");
-    fprintf(write_file, "%c%c", BYTE_ZERO, BYTE_ZERO);
-    unsigned short trash_size = compression(new_hash, file, write_file);
+    fprintf(write_file, "%c%c", BYTE_ZERO, BYTE_ZERO); //para quando usar a rewind
+    
+    print_pre_order(root, write_file, &tree_size);
+    trash_size = compression(new_hash, file, write_file);
+
+    unsigned char first_byte, second_byte;
+    
+    unsigned char bytes[2];
+
+//colocando os 3 primeiros bits como o tamanho do lixo e os 5 ultimos como os 5 bits mais significativos do tree_size(mais a esquerda)
+//como o tamanho da arvore nunca ultrapassa 13, entao sempre os 3 primeiros bits serão 0;
+    bytes[0] = trash_size << 5 | tree_size >> 8; 
+    bytes[1] = tree_size; //pegando os 8 ultimos bytes que "sobraram", lembrar q ele faz o casting automaticamente
+    rewind(write_file);
+    fprintf(write_file, "%c%c", bytes[0], bytes[1]); //escrevendo o cabeçalho
     fclose(write_file);
 }
 

@@ -23,8 +23,9 @@ void create_new_file_name(char **file_name)
     *file_name = new_file_name; // file_name = nome_arquivo.huff
 }
 
-hash* read(char *file_name, hash* hash, FILE *file)
+hash* read(char *file_name, hash* hash)
 {
+    FILE *file = fopen(file_name, "rb");
     unsigned char *byte = (unsigned char *) malloc(sizeof(unsigned char));
     //colocando os caracteres com suas frequencias na hash
     while(1)
@@ -43,7 +44,7 @@ hash* read(char *file_name, hash* hash, FILE *file)
                 put_hash(hash, byte);
         }
     }
-    //fclose(file);
+    fclose(file);
     return hash;
 }
 
@@ -64,19 +65,6 @@ void new_map(huff_node *node, unsigned short count_size, unsigned short aux_bina
     }
 }
 
-void print_pre_order(huff_node *node, FILE *write_file)
-{
-    if(node == NULL)
-        return;
-    else
-    {
-        if(*(unsigned char *) node -> item != '*') 
-            fprintf(write_file, "%c - %hi\n", *(unsigned char *) node -> item, node -> size);
-        print_pre_order(node -> left, write_file);
-        print_pre_order(node -> right, write_file);
-    }
-}
-
 unsigned short compression(hash *new_hash, FILE *file, FILE *write_file)
 {
     unsigned short binary, bit_count, aux, current_bits, mod;
@@ -91,7 +79,6 @@ unsigned short compression(hash *new_hash, FILE *file, FILE *write_file)
                 break;
             else
             {
-                printf("%c\n", byte);
                 binary = new_hash -> table[byte] -> binary; 
                 current_bits = bit_count + new_hash -> table[byte] -> size;
                 if(current_bits > 8)
@@ -151,7 +138,7 @@ void compress(char *file_name)
     unsigned short tree_size = 0;
     hash *new_hash = create_hash_table();
     FILE *file = fopen(file_name, "rb");
-    new_hash = read(file_name, new_hash, file);
+    new_hash = read(file_name, new_hash);
     huff_heap *new_heap = create_heap();
 
     for(int i = 0; i < 256; i++)
@@ -161,15 +148,12 @@ void compress(char *file_name)
     huff_node *root = construct_tree(new_heap);
     if(root == NULL)
         return;
-
+    
     create_new_file_name(&file_name);
     new_map(root, 0, 0, &tree_size);
     FILE *write_file = fopen(file_name, "wb");
     fprintf(write_file, "%c%c", BYTE_ZERO, BYTE_ZERO);
-    //fprintf(write_file,"Tree size %d\n", tree_size);
-    //print_pre_order(root, write_file);
     unsigned short trash_size = compression(new_hash, file, write_file);
-    fclose(file);
     fclose(write_file);
 }
 

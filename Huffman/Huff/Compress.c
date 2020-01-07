@@ -189,5 +189,6 @@ void compress(char *file_name)
     rewind(write_file);
     fprintf(write_file, "%c%c", bytes[0], bytes[1]); //escrevendo o cabeçalho
     fclose(write_file);
+    printf("Arquivo comprimido com sucesso!\n\n");
 }
 

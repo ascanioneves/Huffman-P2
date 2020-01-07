@@ -22,10 +22,6 @@ void start()
     printf("|             Jorge Firmo                   |\n");
     printf("---------------------------------------------\n");
     printf("\n\n\n");
-    printf("Qual sera a operacao ?\n");
-    printf("Digite '1' para compressao\n");
-    printf("Digite '2' para descompressao\n");
-    printf("Digite '3' para sair\n");
 }
 int main()
 {
@@ -33,6 +29,10 @@ int main()
 
     while(1)
     {
+        printf("Qual sera a operacao ?\n");
+        printf("Digite '1' para compressao\n");
+        printf("Digite '2' para descompressao\n");
+        printf("Digite '3' para sair\n");
         printf("\n\n\n");
         int op;
         char file[1000];
@@ -43,7 +43,7 @@ int main()
         {
             printf("Digite o diretorio do arquivo a ser comprimido:\n");
             scanf(" %[^\n]s", file);
-            printf("O arquivo: %s sera comprimido agora\n", file);
+            printf("O arquivo: %s sera comprimido agora\n\n", file);
             compress(file);
         }
         else if(op == 2)
@@ -56,15 +56,11 @@ int main()
         else if(op == 3)
         {
             printf("Encerrando...\n");
-            printf("Tchauu...\n");
             return 0;
         }
         else 
         {
             printf("Operacao Invalida\n\n");
-            printf("Digite '1' para compressao\n");
-            printf("Digite '2' para descompressao\n");
-            printf("Digite '3' para sair\n");
             continue;
         }
     }

@@ -8,12 +8,6 @@
 
 #define BYTE_ZERO 0
 
-unsigned char set_bit(unsigned char c, int i) 
-{
-    unsigned char mask = 1 << i;
-    return mask | c;
-}
-
 int is_leaf(huff_node *node) { return node -> left == NULL && node -> right == NULL; }
 
 void create_new_file_name(char **file_name)
@@ -66,17 +60,17 @@ void new_map(huff_node *node, unsigned short count_size, unsigned short aux_bina
     }
 }
 
-unsigned short compression(hash *new_hash, FILE *file, FILE *write_file)
+unsigned short compression(hash *new_hash, FILE *read_file, FILE *write_file)
 {
     unsigned short binary, bit_count, aux, current_bits, mod;
     unsigned char byte, print_byte;
-    while(feof(file) == 0)
+    while(feof(read_file) == 0)
     {
         print_byte = BYTE_ZERO; //começando o byte zerado
         bit_count = 0; //contador de bits
         while(bit_count < 8)
         {
-            if(fscanf(file, "%c", &byte) == EOF)
+            if(fscanf(read_file, "%c", &byte) == EOF)
                 break;
             else
             {
@@ -155,6 +149,14 @@ void print_pre_order(huff_node *node, FILE *write_file, unsigned short *tree_siz
     }
 }
 
+void construct_header(unsigned char *bytes, unsigned short tree_size, unsigned short trash_size)
+{
+    //colocando os 3 primeiros bits como o tamanho do lixo e os 5 ultimos como os 5 bits mais significativos do tree_size(mais a esquerda)
+    //como o tamanho da arvore nunca ultrapassa 13, entao sempre os 3 primeiros bits serão 0;
+    bytes[0] = trash_size << 5 | tree_size >> 8; 
+    bytes[1] = tree_size; //pegando os 8 ultimos bytes que "sobraram", lembrar q ele faz o casting automaticamente
+}
+
 void compress(char *file_name)
 {
     unsigned short tree_size = 0, trash_size;
@@ -179,15 +181,11 @@ void compress(char *file_name)
     
     print_pre_order(root, write_file, &tree_size);
     trash_size = compression(new_hash, file, write_file);
-
-    unsigned char first_byte, second_byte;
     
     unsigned char bytes[2];
 
-//colocando os 3 primeiros bits como o tamanho do lixo e os 5 ultimos como os 5 bits mais significativos do tree_size(mais a esquerda)
-//como o tamanho da arvore nunca ultrapassa 13, entao sempre os 3 primeiros bits serão 0;
-    bytes[0] = trash_size << 5 | tree_size >> 8; 
-    bytes[1] = tree_size; //pegando os 8 ultimos bytes que "sobraram", lembrar q ele faz o casting automaticamente
+    construct_header(bytes, tree_size, trash_size);
+
     rewind(write_file);
     fprintf(write_file, "%c%c", bytes[0], bytes[1]); //escrevendo o cabeçalho
     fclose(write_file);

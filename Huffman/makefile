@@ -6,4 +6,4 @@ HEAP = Estruturas/HuffmanHeap.c
 MAIN = Huff/Main.c
 
 compile_huffman:
-	gcc $(COMPRESS) $(HUFFMAN) $(BINARY_TREE) $(HASH) $(HEAP) $(MAIN) -o huffman
+	gcc $(COMPRESS) $(DESCOMPRESS) $(HUFFMAN) $(BINARY_TREE) $(HASH) $(HEAP) $(MAIN) -o huffman

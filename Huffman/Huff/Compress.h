@@ -1,9 +1,6 @@
 #ifndef compress_h
 #define compress_h
 
-//Função que retorna 1 caso o nó seja folha e 0 caso contrário.
-int is_leaf(huff_node *node); 
-
 //Função que cria um novo arquivo com o nome do arquivo a ser comprimido juntamente com a extensão ".huff".
 void create_file_name(char **file_name);
 

@@ -27,3 +27,5 @@ huff_node* merge_nodes(huff_node *left, huff_node *right)
     return new_node;
 }
 
+int is_leaf(huff_node *node) { return node -> left == NULL && node -> right == NULL; }
+

@@ -160,6 +160,7 @@ void descompress(char *file_name)
 
     FILE *write_file = fopen(file_name, "wb");
     descompression(tree, write_file, read_file, trash_size);
+    printf("Arquivo descomprimido com sucesso!\n\n");
     fclose(read_file);
     fclose(write_file);
 }

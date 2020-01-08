@@ -5,10 +5,9 @@
 #include "../Estruturas/HuffmanHeap.h"
 #include "../Estruturas/HuffmanTree.h"
 #include "Compress.h"
+#include "Descompress.h"
 
 #define BYTE_ZERO 0
-
-int is_leaf(huff_node *node) { return node -> left == NULL && node -> right == NULL; }
 
 void create_new_file_name(char **file_name)
 {

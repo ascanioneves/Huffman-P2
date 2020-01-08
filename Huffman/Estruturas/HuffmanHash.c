@@ -20,7 +20,7 @@ void put_hash(hash *ht , unsigned char *element)
     //printf("%c\n", *(element));
     if(ht -> table[*element] == NULL)
     {
-        huff_node *new_node = create_node(element);
+        huff_node *new_node = create_node(element, NULL, NULL);
         ht -> table[*element] = new_node;
     }
     else

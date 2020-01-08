@@ -50,8 +50,8 @@ int main()
         {
             printf("Digite o diretorio do arquivo a ser descomprimido:\n");
             scanf(" %[^\n]s", file);
-            printf("O arquivo: %s sera descomprimido agora\n", file);
-            //descompress();
+            printf("O arquivo: %s sera descomprimido agora\n\n", file);
+            descompress(file);
         }
         else if(op == 3)
         {

@@ -5,7 +5,7 @@
 #include "../Estruturas/HuffmanHeap.h"
 #include "../Estruturas/HuffmanTree.h"
 #include "Compress.h"
-#include "Descompress.h"
+#include "Decompress.h"
 
 #define BYTE_ZERO 0
 

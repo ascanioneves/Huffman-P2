@@ -8,7 +8,6 @@
 
 huff_heap *heap = NULL;
 huff_node *root = NULL;
-int heap_size;
 
 const char tree[7] = "*A**DCB";
 
@@ -98,7 +97,6 @@ void testing_tree_build()
   enqueue(heap, nodeB);
   enqueue(heap, nodeC);
   enqueue(heap, nodeD);
-  heap_size = heap -> size;
   root = construct_tree(heap);
   unsigned short i = 0;
   tree_compare(root, &i);

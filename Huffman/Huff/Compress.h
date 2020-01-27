@@ -22,4 +22,7 @@ void construct_header(unsigned char *bytes, unsigned short tree_size, unsigned s
 //Função que controla o processo de compressão, chamando todas as outras funções essenciais.
 void compress(char *file_name);
 
+//Retorna o numero total de bytes do arquivo comprimido
+int get_total_bytes();
+
 #endif

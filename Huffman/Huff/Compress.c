@@ -7,6 +7,7 @@
 #include "Compress.h"
 #include "Decompress.h"
 
+int total_bytes;
 #define BYTE_ZERO 0
 
 void create_new_file_name(char **file_name)
@@ -85,6 +86,7 @@ unsigned short compression(hash *new_hash, FILE *read_file, FILE *write_file)
                         binary >>= mod; //ignorando os bit que extrapolam no meu byte atual
                         print_byte |= binary; //setando
                         fprintf(write_file, "%c", print_byte);
+                        total_bytes++;
 
                         print_byte = BYTE_ZERO; //zerando pois ja é o segundo byte
                         binary = aux; //pegando o mapeamento do char
@@ -98,6 +100,7 @@ unsigned short compression(hash *new_hash, FILE *read_file, FILE *write_file)
 
                         print_byte |= binary;
                         fprintf(write_file, "%c", print_byte);
+                        total_bytes++; //apenas pra barra de progresso
 
                         print_byte = BYTE_ZERO;
                         binary = aux;
@@ -106,6 +109,7 @@ unsigned short compression(hash *new_hash, FILE *read_file, FILE *write_file)
 
                         print_byte |= binary;
                         fprintf(write_file, "%c", print_byte);
+                        total_bytes++;
 
                         print_byte = BYTE_ZERO;
                         binary = aux;
@@ -123,6 +127,7 @@ unsigned short compression(hash *new_hash, FILE *read_file, FILE *write_file)
             }
         }    
         fprintf(write_file, "%c", print_byte);
+        total_bytes++;
     }
     return 8 - bit_count == 8 ? 7 : 8 - bit_count; //não existe lixo com 8 bits 
 }
@@ -156,8 +161,14 @@ void construct_header(unsigned char *bytes, unsigned short tree_size, unsigned s
     bytes[1] = tree_size; //pegando os 8 ultimos bytes que "sobraram", lembrar q ele faz o casting automaticamente
 }
 
+int get_total_bytes()
+{
+    return total_bytes;
+}
+
 void compress(char *file_name)
 {
+    total_bytes = 0;
     unsigned short tree_size = 0, trash_size;
     hash *new_hash = create_hash_table();
     FILE *file = fopen(file_name, "rb");

@@ -21,7 +21,7 @@ int get_left_index(huff_heap *heap, int i) { return i << 1; }
 
 int get_right_index(huff_heap *heap, int i) { return (i << 1) + 1; }
 
-huff_heap *create_heap()
+huff_heap* create_heap()
 {
     huff_heap *new_heap = (huff_heap *) malloc(sizeof(huff_heap));
     new_heap -> size = 0;

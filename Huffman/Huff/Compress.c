@@ -44,22 +44,6 @@ hash* read(char *file_name, hash* hash)
     return hash;
 }
 
-void new_map(huff_node *node, unsigned short count_size, unsigned short aux_binary)
-{
-    if(node == NULL)
-        return;
-    else
-    {
-        if(is_leaf(node))
-        {
-            node -> size = count_size;
-            node -> binary = aux_binary;
-        }
-        new_map(node -> left, count_size + 1, aux_binary << 1);
-        new_map(node -> right, count_size + 1, (aux_binary << 1) + 1);
-    }
-}
-
 unsigned short compression(hash *new_hash, FILE *read_file, FILE *write_file)
 {
     unsigned short binary, bit_count, aux, current_bits, mod;
@@ -179,7 +163,7 @@ void compress(char *file_name)
         if(new_hash -> table[i] != NULL)
             enqueue(new_heap, new_hash -> table[i]);
 
-    huff_node *root = construct_tree(new_heap);
+    huff_node *root = construct_tree(new_heap); 
     
     if(root == NULL)
         return;

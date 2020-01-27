@@ -7,9 +7,6 @@ void create_file_name(char **file_name);
 //Função que lê o arquivo a ser comprimido e insere o bytes com suas respectivas frequências na hash.
 hash* read(char *file_name, hash *hash);
 
-//Função que estrutura o novo mapeamento dos bytes.
-void new_map(huff_node *node, unsigned short count_size, unsigned short aux_binary);
-
 //Função que gera o arquivo comprimido.
 unsigned short compression(hash *new_hash, FILE *read_file, FILE *write_file);
 

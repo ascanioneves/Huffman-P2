@@ -8,6 +8,7 @@
 
 huff_heap *heap = NULL;
 huff_node *root = NULL;
+int heap_size;
 
 const char tree[7] = "*A**DCB";
 
@@ -58,6 +59,31 @@ void testing_create_heap()
   CU_ASSERT(0 == heap -> size);
 }
 
+void run_tree(huff_node *node)
+{
+  if(node == NULL)
+    return;
+  else
+  {
+    if(node -> item == 'A')
+      CU_ASSERT_EQUAL(0, node -> binary);
+    if(node -> item == 'B')
+      CU_ASSERT_EQUAL(3, node -> binary);
+    if(node -> item == 'C')
+      CU_ASSERT_EQUAL(5, node -> binary);
+    if(node -> item == 'D')
+      CU_ASSERT_EQUAL(4, node ->binary);
+    run_tree(node -> left);
+    run_tree(node -> right);
+  }
+  
+}
+void testing_newmap()
+{
+  new_map(root, 0, 0);
+  run_tree(root);
+}
+
 void testing_tree_build()
 {
   huff_node *nodeA = create_node('A', NULL, NULL);
@@ -72,6 +98,7 @@ void testing_tree_build()
   enqueue(heap, nodeB);
   enqueue(heap, nodeC);
   enqueue(heap, nodeD);
+  heap_size = heap -> size;
   root = construct_tree(heap);
   unsigned short i = 0;
   tree_compare(root, &i);
@@ -83,6 +110,7 @@ void testing_tree_build()
 
 void testing_enqueue()
 {
+  heap = create_heap();
   huff_node *node = create_node('P', NULL, NULL);
   enqueue(heap, node);
   CU_ASSERT_NOT_EQUAL(NULL, heap -> data[1]);
@@ -143,6 +171,11 @@ int main()
     return CU_get_error();
   }
   if(NULL == CU_add_test(pSuite, "\n\n Testing TreeBuild Function \n\n", testing_tree_build))
+  {
+    CU_cleanup_registry();
+    return CU_get_error();
+  }
+  if(NULL == CU_add_test(pSuite, "\n\n Testing NewMap Function \n\n", testing_newmap))
   {
     CU_cleanup_registry();
     return CU_get_error();

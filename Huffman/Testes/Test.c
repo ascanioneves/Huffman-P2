@@ -21,6 +21,22 @@ int clean_suite()
   return 0;
 }
 
+void get_tree_size(huff_node *node, unsigned short *i)
+{
+  if(node == NULL)
+    return;
+  else
+  {
+    if(is_leaf(node))
+      if(node -> item == '*' || node -> item == '\\')
+        *i += 1;
+    *i += 1;
+    get_tree_size(node -> left, i);
+    get_tree_size(node -> right, i);
+  }
+  
+}
+
 void tree_compare(huff_node *node, unsigned short *i)
 {
   if(node == NULL)
@@ -59,6 +75,9 @@ void testing_tree_build()
   root = construct_tree(heap);
   unsigned short i = 0;
   tree_compare(root, &i);
+  CU_ASSERT_EQUAL(strlen(tree), i);
+  i = 0;
+  get_tree_size(root, &i);
   CU_ASSERT_EQUAL(strlen(tree), i);
 }
 

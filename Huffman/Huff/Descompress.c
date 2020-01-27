@@ -4,7 +4,7 @@
 #include "../Estruturas/HuffmanHash.h"
 #include "../Estruturas/HuffmanHeap.h"
 #include "../Estruturas/HuffmanTree.h"
-#include "Decompress.h"
+#include "Descompress.h"
 #include "Compress.h"
 
 void create_pre_order_tree(huff_node **tree, short int *count, FILE *file, short int tree_size)
@@ -64,7 +64,7 @@ void putChar(char *progress, int i)
         progress[j] = ' ';
 }
 
-void decompression(huff_node *root, FILE *write_file, FILE *read_file, short int trash_size)
+void descompression(huff_node *root, FILE *write_file, FILE *read_file, short int trash_size)
 {
     int count_progress = 0;
     unsigned short i = 0, bit;
@@ -141,7 +141,7 @@ void remove_huff(char **file_name)
     *file_name = new_name;
 }
 
-void decompress(char *file_name)
+void descompress(char *file_name)
 {
     short int count = 0;
     unsigned short tree_size, trash_size;
@@ -175,7 +175,7 @@ void decompress(char *file_name)
     remove_huff(&file_name);
 
     FILE *write_file = fopen(file_name, "wb");
-    decompression(tree, write_file, read_file, trash_size);
+    descompression(tree, write_file, read_file, trash_size);
     printf("Arquivo descomprimido com sucesso!\n\n");
     fclose(read_file);
     fclose(write_file);

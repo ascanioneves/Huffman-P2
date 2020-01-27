@@ -5,7 +5,7 @@
 #include "../Estruturas/HuffmanHeap.h"
 #include "../Estruturas/HuffmanTree.h"
 #include "Compress.h"
-#include "Decompress.h"
+#include "Descompress.h"
 
 void start()
 {
@@ -51,7 +51,7 @@ int main()
             printf("Digite o diretorio do arquivo a ser descomprimido:\n");
             scanf(" %[^\n]s", file);
             printf("O arquivo: %s sera descomprimido agora\n\n", file);
-            decompress(file);
+            descompress(file);
         }
         else if(op == 3)
         {

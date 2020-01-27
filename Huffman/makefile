@@ -1,5 +1,5 @@
 COMPRESS = Huff/Compress.c
-DESCOMPRESS = Huff/Decompress.c
+DESCOMPRESS = Huff/Descompress.c
 BINARY_TREE = Estruturas/HuffmanTree.c
 HASH = Estruturas/HuffmanHash.c
 HEAP = Estruturas/HuffmanHeap.c

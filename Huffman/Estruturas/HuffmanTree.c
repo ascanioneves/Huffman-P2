@@ -18,8 +18,8 @@ void new_map(huff_node *node, unsigned short count_size, unsigned short aux_bina
             node -> size = count_size;
             node -> binary = aux_binary;
         }
-        new_map(node -> left, count_size + 1, aux_binary << 1);
-        new_map(node -> right, count_size + 1, (aux_binary << 1) + 1);
+        new_map(node -> left, count_size + 1, aux_binary << 1); // esquerda (0)
+        new_map(node -> right, count_size + 1, (aux_binary << 1) + 1); // direita (1)
     }
 }
 

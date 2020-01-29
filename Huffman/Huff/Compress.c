@@ -74,7 +74,7 @@ unsigned short compression(hash *new_hash, FILE *read_file, FILE *write_file)
 
                         print_byte = BYTE_ZERO; //zerando pois ja é o segundo byte
                         binary = aux; //pegando o mapeamento do char
-                        binary <<= (16 - mod); //ignorando os bits ja usados
+                        binary <<= (16 - mod); //ignorando os bits ja usados no byte anterior
                         binary >>= 8; // reorganizando no byte da direita, de forma que os bits ja utilizados sao ignorados
                     }
                     else

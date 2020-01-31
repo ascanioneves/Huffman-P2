@@ -9,6 +9,7 @@ typedef struct avl_node avl_node;
 typedef struct node node;
 
 int data[MAXSIZE];
+int data_random[MAXSIZE];
 
 struct node
 {
@@ -179,7 +180,7 @@ node *add_node(node *bt, int item)
 void initialize_data()
 {
   for(int i = 0; i < MAXSIZE; i++)
-    data[i] = i;
+    data[i] = i, data_random[i] = rand() % MAXSIZE;
 }
 
 avl_node *create_empty_avl()

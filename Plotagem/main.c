@@ -145,34 +145,24 @@ avl_node* add(avl_node *bt , int item)
 
 void search(node *bt, int item, int *abbComparisons)
 {
+  *abbComparisons += 1;
   if(bt == NULL || bt -> item == item)
     return;
   else if(bt -> item > item)
-  {
-    *abbComparisons += 1;
     search(bt -> left, item, abbComparisons);
-  }
   else
-  {
-    *abbComparisons += 1;
     search(bt -> right, item, abbComparisons);
-  }
 }
 
 void search_avl(avl_node *node, int item, int *avlComparisons)
 {
+  *avlComparisons += 1;
   if(node == NULL || node -> item == item)
     return;
   else if(node -> item > item)
-  {
-    *avlComparisons += 1;
     search_avl(node -> left, item, avlComparisons);
-  }
   else
-  {
-    *avlComparisons += 1;
-    search_avl(node -> right, item, avlComparisons);  
-  }
+    search_avl(node -> right, item, avlComparisons); 
 }
 
 node *add_node(node *bt, int item)
@@ -216,8 +206,8 @@ int main()
   for(long long i = 0; i < MAXSIZE; i++)
   {
     int avlComparisons = 0, abbComparisons = 0;
-    //int wanted = rand() % MAXSIZE;
-    int wanted = i;
+    int wanted = rand() % 1000;
+    //int wanted = i;
     search(root, wanted, &abbComparisons);
     search_avl(avl_root, wanted, &avlComparisons);  
     fprintf(file, "%d %d %d\n", wanted, avlComparisons, abbComparisons);

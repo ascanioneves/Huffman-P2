@@ -189,20 +189,8 @@ void initialize_data()
 {
   for(int i = 0; i < MAXSIZE; i++)
   {
-    int random = rand() % 1000000;
+    int random = rand() % 10000;
     data[i] = random;
-  }
-}
-
-void print_pre_order(node *node)
-{
-  if(node == NULL)
-    return;
-  else
-  {
-    printf("%d\n", node -> item);
-    print_pre_order(node -> left);
-    print_pre_order(node -> right); 
   }
 }
 
@@ -225,32 +213,17 @@ int main()
   for(int i = 0; i < MAXSIZE; i++)
     avl_root = add(avl_root, data[i]);
 
-  FILE *abb = fopen("abb.txt", "wb");
-  FILE *avl = fopen("avl.txt", "wb");
-  int flag1 = 1, flag2 = 1;
-  for(int i = 0; i < 1000; i++)
+  FILE *file = fopen("results.txt", "wb");
+  fprintf(file, "value avl abb\n");
+  for(int i = 0; i < 100000; i++)
   {
     int avlComparisons = 0, abbComparisons = 0;
-    int wanted = rand() % 1000000;
+    int wanted = rand() % 10000;
     search(root, wanted, &abbComparisons);
     search_avl(avl_root, wanted, &avlComparisons);  
-    if(flag1)
-    {
-      fprintf(abb, "%d", abbComparisons);
-      flag1 = 0;
-    }
-    else
-      fprintf(abb, " %d", abbComparisons);
-    if(flag2)
-    {
-      fprintf(avl, "%d", avlComparisons);
-      flag2 = 0;
-    }
-    else
-      fprintf(avl, " %d", avlComparisons);
+    fprintf(file, "%d %d %d\n", wanted, abbComparisons, avlComparisons);
   }
-  fclose(abb);
-  fclose(avl);
+  fclose(file);
   //printf("Wanted = %d\nABB = %d\nAVL = %d\n", wanted, abbComparisons, avlComparisons);
   return 0;
 }

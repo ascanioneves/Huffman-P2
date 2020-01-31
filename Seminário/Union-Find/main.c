@@ -54,7 +54,7 @@ graph *create_graph()
 int Find(int i)
 {
     //Se sou pai retorne meu indice, se nao continue procurando ate achar o pai (parent[i] == -1)
-    return parent[i] == -1 ? i : Find(parent[i]);
+    return parent[i] == -1 ? i : parent[i] = Find(parent[i]);
 }
 
 //Unindo um vertice a um subconjunto, consequentemente os dois subconjuntos

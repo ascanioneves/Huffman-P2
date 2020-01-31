@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <limits.h>
 
-#define MAXSIZE 1000
+#define MAXSIZE 20000
 
 typedef struct avl_node avl_node;
 typedef struct node node;
@@ -188,10 +189,7 @@ node *add_node(node *bt, int item)
 void initialize_data()
 {
   for(int i = 0; i < MAXSIZE; i++)
-  {
-    int random = rand() % 10000;
-    data[i] = random;
-  }
+    data[i] = i;
 }
 
 avl_node *create_empty_avl()
@@ -215,13 +213,14 @@ int main()
 
   FILE *file = fopen("results.txt", "wb");
   fprintf(file, "value avl abb\n");
-  for(int i = 0; i < 100000; i++)
+  for(long long i = 0; i < MAXSIZE; i++)
   {
     int avlComparisons = 0, abbComparisons = 0;
-    int wanted = rand() % 10000;
+    //int wanted = rand() % MAXSIZE;
+    int wanted = i;
     search(root, wanted, &abbComparisons);
     search_avl(avl_root, wanted, &avlComparisons);  
-    fprintf(file, "%d %d %d\n", wanted, abbComparisons, avlComparisons);
+    fprintf(file, "%d %d %d\n", wanted, avlComparisons, abbComparisons);
   }
   fclose(file);
   //printf("Wanted = %d\nABB = %d\nAVL = %d\n", wanted, abbComparisons, avlComparisons);

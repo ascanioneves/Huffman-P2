@@ -55,18 +55,8 @@ unsigned char current_bit(unsigned char byte, int i)
     return mask & byte;
 }
 
-void putChar(char *progress, int i)
-{
-    i /= 10;
-    for(int j = 0; j < i; j++)
-        progress[j] = '#';
-    for(int j = i; j < 10 - i; j++)
-        progress[j] = ' ';
-}
-
 void descompression(huff_node *root, FILE *write_file, FILE *read_file, short int trash_size)
 {
-    int count_progress = 0;
     unsigned short i = 0, bit;
     unsigned char byte, byte_2;
     huff_node *current_node = root;
@@ -74,14 +64,8 @@ void descompression(huff_node *root, FILE *write_file, FILE *read_file, short in
         printf("Arquivo incompleto\n");
     else
     {
-        int total_bytes = get_total_bytes();
         while(fscanf(read_file, "%c", &byte) != EOF)
         {
-            // char progress[10];
-            // putChar(progress, (count_progress / (double)total_bytes) * 100);
-            // system("clear");
-            // printf("\rDescomprimindo... %.0f%% [%s]", (count_progress / (double)total_bytes) * 100, progress);
-            count_progress++;
             int i = 0;
             //estou no ultimo byte
             if(fscanf(read_file, "%c", &byte_2) == EOF)

@@ -34,7 +34,6 @@ void get_tree_size(huff_node *node, unsigned short *i)
     get_tree_size(node -> left, i);
     get_tree_size(node -> right, i);
   }
-  
 }
 
 void tree_compare(huff_node *node, unsigned short *i)
@@ -75,8 +74,8 @@ void run_tree(huff_node *node)
     run_tree(node -> left);
     run_tree(node -> right);
   }
-  
 }
+
 void testing_newmap()
 {
   new_map(root, 0, 0);
@@ -104,6 +103,19 @@ void testing_tree_build()
   i = 0;
   get_tree_size(root, &i);
   CU_ASSERT_EQUAL(strlen(tree), i);
+}
+
+void testing_hash()
+{
+  hash *new_hash = create_hash_table();
+  CU_ASSERT_NOT_EQUAL(new_hash, NULL);
+  CU_ASSERT_PTR_NULL(new_hash->table[0]);
+  unsigned char *ch = (unsigned char*)malloc(sizeof(unsigned char));
+  *ch = (unsigned char)'a';
+  put_hash(new_hash, ch);
+  put_hash(new_hash, ch);
+  CU_ASSERT_PTR_NOT_NULL(new_hash->table['a']);
+  CU_ASSERT_EQUAL(new_hash->table['a']->freq, 2);
 }
 
 void testing_enqueue()
@@ -174,6 +186,11 @@ int main()
     return CU_get_error();
   }
   if(NULL == CU_add_test(pSuite, "\n\n Testing NewMap Function \n\n", testing_newmap))
+  {
+    CU_cleanup_registry();
+    return CU_get_error();
+  }
+  if(NULL == CU_add_test(pSuite, "\n\n Testing Hash \n\n", testing_hash))
   {
     CU_cleanup_registry();
     return CU_get_error();

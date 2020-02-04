@@ -204,16 +204,15 @@ int main()
 
   FILE *file = fopen("results.txt", "wb");
   fprintf(file, "value avl abb\n");
-  for(long long i = 0; i < MAXSIZE; i++)
+  for(long long i = 0; i < 2000; i++)
   {
     int avlComparisons = 0, abbComparisons = 0;
-    int wanted = rand() % 1000;
-    //int wanted = i;
+    //int wanted = rand() % 1000;
+    int wanted = i;
     search(root, wanted, &abbComparisons);
     search_avl(avl_root, wanted, &avlComparisons);  
     fprintf(file, "%d %d %d\n", wanted, avlComparisons, abbComparisons);
   }
   fclose(file);
-  //printf("Wanted = %d\nABB = %d\nAVL = %d\n", wanted, abbComparisons, avlComparisons);
   return 0;
 }

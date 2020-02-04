@@ -77,25 +77,27 @@ unsigned short compression(hash *new_hash, FILE *read_file, FILE *write_file)
                     }
                     else
                     {
-                        binary >>= 8; //pegando apenas o primeiro byte, melhor trabalhar com 1 byte
-                        binary >>= mod; //ignorando o que vai extrapolar do primeiro byte
+                        binary >>= 8;
+                        binary >>= mod;
 
                         print_byte |= binary;
                         fprintf(write_file, "%c", print_byte);
+                         //apenas pra barra de progresso
 
                         print_byte = BYTE_ZERO;
                         binary = aux;
-                        binary <<= (16 - (new_hash -> table[byte] -> size - (8 - bit_count))); //ignora oq ja usamos no primeiro byte
-                        binary >>= 8; //pegamos so o primeiro byte, pra reduzir o problema
+                        binary <<= (16 - (new_hash -> table[byte] -> size - (8 - bit_count)));
+                        binary >>= 8;
 
                         print_byte |= binary;
                         fprintf(write_file, "%c", print_byte);
                         
+
                         print_byte = BYTE_ZERO;
                         binary = aux;
-                        binary <<= (16 - mod);//ignorando tudo usado nos dois primeiros bytes
-                        binary >>= 8; //colocando o que vamos usar no segundo byte do binary
-                        bit_count = mod;//atualizamos o bit_count
+                        binary <<= (16 - mod);
+                        binary >>= 8;
+                        bit_count = mod;
                     }
                 }
                 else
@@ -109,7 +111,7 @@ unsigned short compression(hash *new_hash, FILE *read_file, FILE *write_file)
         fprintf(write_file, "%c", print_byte);
         
     }
-    return (8 - bit_count == 8) ? 7 : 8 - bit_count; //não existe lixo com 8 bits 
+    return 7 - bit_count; //não existe lixo com 8 bits 
 }
 
 void print_pre_order(huff_node *node, FILE *write_file, unsigned short *tree_size)

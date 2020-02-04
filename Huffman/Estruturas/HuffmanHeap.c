@@ -33,20 +33,20 @@ huff_heap* create_heap()
 
 void min_heapify(huff_heap *heap, int i, int size)
 {
-    int largest;
+    int min_value;
     int left_index = get_left_index(heap, i);
     int right_index = get_right_index(heap, i);
     if(left_index <= size && heap->data[left_index]->freq <= heap->data[i]->freq)
-        largest = left_index;
+        min_value = left_index;
     else
-        largest = i;
+        min_value = i;
     
-    if(right_index <= size && heap->data[right_index]->freq <= heap->data[largest]->freq)
-        largest = right_index;
-    if(heap->data[i]->freq != heap->data[largest]->freq)
+    if(right_index <= size && heap->data[right_index]->freq <= heap->data[min_value]->freq)
+        min_value = right_index;
+    if(heap->data[i]->freq != heap->data[min_value]->freq)
     {
-        swap(heap, i, largest);
-        min_heapify(heap, largest, size);
+        swap(heap, i, min_value);
+        min_heapify(heap, min_value, size);
     }
 }
 

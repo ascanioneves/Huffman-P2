@@ -25,6 +25,7 @@ void create_pre_order_tree(huff_node **tree, short int *count, FILE *file, short
 
         *count += 1;
 
+        //nao sou folha
         if(byte == '*')
         {
             *tree = create_node(aux_byte, NULL, NULL);

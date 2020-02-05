@@ -77,7 +77,6 @@ void Initialize(int vertices)
 
 int main()
 {
-    memset(parent, -1, sizeof(parent));
     int edges, vertices;
     scanf("%d%d", &edges, &vertices);
     graph *new_graph = create_graph();

@@ -9,7 +9,6 @@
 
 void create_pre_order_tree(huff_node **tree, short int *count, FILE *file, short int tree_size)
 {
-    //percorremos a arvore inteira
     if(*count == tree_size)
         return;
     else
@@ -25,14 +24,12 @@ void create_pre_order_tree(huff_node **tree, short int *count, FILE *file, short
 
         *count += 1;
 
-        //nao sou folha
         if(byte == '*')
         {
             *tree = create_node(aux_byte, NULL, NULL);
             create_pre_order_tree(&((*tree) -> left), count, file, tree_size);
             create_pre_order_tree(&((*tree) -> right), count, file, tree_size);
         }
-        //sou uma folha e me encaixo no caso especial do '\\'
         else if(byte == '\\')
         {
             if(fscanf(file, "%c", &byte) == EOF)
@@ -44,7 +41,6 @@ void create_pre_order_tree(huff_node **tree, short int *count, FILE *file, short
             *count += 1;
             *tree = create_node(aux_byte, NULL, NULL); 
         }
-        //sou uma folha e nao me encaixo no caso especial
         else
             *tree = create_node(aux_byte, NULL, NULL);
     }
@@ -68,7 +64,6 @@ void descompression(huff_node *root, FILE *write_file, FILE *read_file, short in
         while(fscanf(read_file, "%c", &byte) != EOF)
         {
             int i = 0;
-            //estou no ultimo byte
             if(fscanf(read_file, "%c", &byte_2) == EOF)
             {
                 while(i < (8 - trash_size))
@@ -92,7 +87,6 @@ void descompression(huff_node *root, FILE *write_file, FILE *read_file, short in
             }
             else
             {
-                //caso que nao é o ultimo byte
                 while(i < 8)
                 {
                     unsigned short bit = (unsigned short) current_bit(byte, i);
@@ -110,7 +104,7 @@ void descompression(huff_node *root, FILE *write_file, FILE *read_file, short in
                         current_node = root;
                     }
                 }
-                fseek(read_file, -1, SEEK_CUR); //volta o ponteiro do arquivo 1 vez por causa dos 2 fscanf
+                fseek(read_file, -1, SEEK_CUR);
             }
         }
     }
@@ -143,10 +137,10 @@ void descompress(char *file_name)
     }
 
     aux_byte = byte;
-    trash_size = (unsigned short) byte >> 5; //tamanho do lixo, jogando os 3 primeiros bits pro final
+    trash_size = (unsigned short) byte >> 5;
 
-    tree_size = (unsigned short) ((byte << 3) >> 3); //ignorando o lixo, que ja foi guardado
-    tree_size <<= 8; //voltando pro primeiro byte
+    tree_size = (unsigned short) ((byte << 3) >> 3);
+    tree_size <<= 8;
 
     if(fscanf(read_file, "%c", &byte) == EOF)
     {
@@ -154,7 +148,7 @@ void descompress(char *file_name)
         return;
     }
 
-    tree_size |= (unsigned short) byte; //setando o que falta que está no segundo byte do cabeçalho
+    tree_size |= (unsigned short) byte;
 
     create_pre_order_tree(&tree, &count, read_file, tree_size);
     remove_huff(&file_name);

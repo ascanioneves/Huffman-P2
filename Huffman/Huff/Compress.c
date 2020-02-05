@@ -15,14 +15,13 @@ void create_new_file_name(char **file_name)
     char *new_file_name = (char *) calloc(size_2, sizeof(char));
     strcpy(new_file_name, *file_name);
     strcat(new_file_name, ".huff");
-    *file_name = new_file_name; // file_name = nome_arquivo.huff
+    *file_name = new_file_name;
 }
 
 hash* read(char *file_name, hash* hash)
 {
     FILE *file = fopen(file_name, "rb");
     unsigned char *byte = (unsigned char *) malloc(sizeof(unsigned char));
-    //colocando os caracteres com suas frequencias na hash
     while(1)
     {
         if(fscanf(file, "%c", byte) == EOF)
@@ -49,8 +48,8 @@ unsigned short compression(hash *new_hash, FILE *read_file, FILE *write_file)
     unsigned char byte, print_byte;
     while(feof(read_file) == 0)
     {
-        print_byte = BYTE_ZERO; //começando o byte zerado
-        bit_count = 0; //contador de bits
+        print_byte = BYTE_ZERO;
+        bit_count = 0;
         while(bit_count < 8)
         {
             if(fscanf(read_file, "%c", &byte) == EOF)
@@ -62,18 +61,18 @@ unsigned short compression(hash *new_hash, FILE *read_file, FILE *write_file)
                 if(current_bits > 8)
                 {
                     aux = binary;
-                    mod = current_bits % 8; //o quanto extrapolei, indica aonde vamos parar no proximo byte
+                    mod = current_bits % 8;
                     if(current_bits < 16)
                     {
-                        bit_count = mod; //será a quantidade de bits do proximo byte, por enquanto
-                        binary >>= mod; //ignorando os bit que extrapolam no meu byte atual
-                        print_byte |= binary; //setando
+                        bit_count = mod;
+                        binary >>= mod; 
+                        print_byte |= binary; 
                         fprintf(write_file, "%c", print_byte);                       
 
-                        print_byte = BYTE_ZERO; //zerando pois ja é o segundo byte
-                        binary = aux; //pegando o mapeamento do char
-                        binary <<= (16 - mod); //ignorando os bits ja usados no byte anterior
-                        binary >>= 8; // reorganizando no byte da direita, de forma que os bits ja utilizados sao ignorados
+                        print_byte = BYTE_ZERO; 
+                        binary = aux;
+                        binary <<= (16 - mod);
+                        binary >>= 8;
                     }
                     else
                     {
@@ -82,7 +81,6 @@ unsigned short compression(hash *new_hash, FILE *read_file, FILE *write_file)
 
                         print_byte |= binary;
                         fprintf(write_file, "%c", print_byte);
-                         //apenas pra barra de progresso
 
                         print_byte = BYTE_ZERO;
                         binary = aux;
@@ -102,16 +100,16 @@ unsigned short compression(hash *new_hash, FILE *read_file, FILE *write_file)
                 }
                 else
                 {
-                    binary <<= (8 - current_bits); //deslocando os bits para a posição correta(o maximo a esquerda) na hora de setar
+                    binary <<= (8 - current_bits);
                     bit_count += new_hash -> table[byte] -> size;
                 }
-                print_byte |= binary; //setando
+                print_byte |= binary;
             }
         }    
         fprintf(write_file, "%c", print_byte);
         
     }
-    return 7 - bit_count; //não existe lixo com 8 bits 
+    return 7 - bit_count;
 }
 
 void print_pre_order(huff_node *node, FILE *write_file, unsigned short *tree_size)
@@ -137,10 +135,8 @@ void print_pre_order(huff_node *node, FILE *write_file, unsigned short *tree_siz
 
 void construct_header(unsigned char *bytes, unsigned short tree_size, unsigned short trash_size)
 {
-    //colocando os 3 primeiros bits como o tamanho do lixo e os 5 ultimos como os 5 bits mais significativos do tree_size(mais a esquerda)
-    //como o tamanho da arvore nunca ultrapassa 13, entao sempre os 3 primeiros bits serão 0;
     bytes[0] = trash_size << 5 | tree_size >> 8; 
-    bytes[1] = tree_size; //pegando os 8 ultimos bytes que "sobraram", lembrar q ele faz o casting automaticamente
+    bytes[1] = tree_size;
 }
 
 void compress(char *file_name)
@@ -151,9 +147,19 @@ void compress(char *file_name)
     new_hash = read(file_name, new_hash);
     huff_heap *new_heap = create_heap();
 
+    int file_char = 0;
     for(int i = 0; i < 256; i++)
         if(new_hash -> table[i] != NULL)
+        {
             enqueue(new_heap, new_hash -> table[i]);
+            file_char++;
+        }
+
+    if(file_char <= 1)
+    {
+        printf("Nao e possivel compactar um arquivo com um unico tipo de caractere\n");
+        return;
+    }
 
     huff_node *root = construct_tree(new_heap); 
     
@@ -163,7 +169,7 @@ void compress(char *file_name)
     create_new_file_name(&file_name);
     new_map(root, 0, 0);
     FILE *write_file = fopen(file_name, "wb");
-    fprintf(write_file, "%c%c", BYTE_ZERO, BYTE_ZERO); //para quando usar a rewind
+    fprintf(write_file, "%c%c", BYTE_ZERO, BYTE_ZERO);
     
     print_pre_order(root, write_file, &tree_size);
     trash_size = compression(new_hash, file, write_file);
@@ -173,7 +179,7 @@ void compress(char *file_name)
     construct_header(bytes, tree_size, trash_size);
 
     rewind(write_file);
-    fprintf(write_file, "%c%c", bytes[0], bytes[1]); //escrevendo o cabeçalho
+    fprintf(write_file, "%c%c", bytes[0], bytes[1]);
     fclose(write_file);
     printf("Arquivo comprimido com sucesso!\n\n");
 }

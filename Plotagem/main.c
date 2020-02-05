@@ -207,7 +207,6 @@ int main()
   for(long long i = 0; i < 2000; i++)
   {
     int avlComparisons = 0, abbComparisons = 0;
-    //int wanted = rand() % 1000;
     int wanted = i;
     search(root, wanted, &abbComparisons);
     search_avl(avl_root, wanted, &avlComparisons);  

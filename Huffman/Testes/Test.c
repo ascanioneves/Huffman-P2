@@ -53,7 +53,7 @@ void tree_compare(huff_node *node, unsigned short *i)
 void testing_create_heap()
 {
   heap = create_heap();
-  CU_ASSERT_NOT_EQUAL(NULL, heap); //se for nulo, houve erro na criação da heap
+  CU_ASSERT_NOT_EQUAL(NULL, heap);
   CU_ASSERT(0 == heap -> size);
 }
 
@@ -130,11 +130,11 @@ void testing_enqueue()
   CU_ASSERT(1 == heap -> size);
   CU_ASSERT(NULL == heap -> data[1] -> left);
   CU_ASSERT(NULL == heap -> data[1] -> right);
-  ++heap -> data[1] -> freq; //Adicionamos mais um 'P', logicamente, logo freq de P = 2
-  huff_node *next_node = create_node('K', NULL, NULL); // freq K = 1
-  enqueue(heap, next_node); //o K vai para o começo
+  ++heap -> data[1] -> freq; 
+  huff_node *next_node = create_node('K', NULL, NULL);
+  enqueue(heap, next_node);
   CU_ASSERT_NOT_EQUAL(NULL, heap -> data[1]);
-  CU_ASSERT(next_node == heap -> data[1]); //testando se o min heapify funcionou corretamente na enqueue
+  CU_ASSERT(next_node == heap -> data[1]);
   CU_ASSERT(next_node -> item == heap -> data[1] -> item);
   CU_ASSERT(next_node -> freq == heap -> data[1] -> freq);
   CU_ASSERT_EQUAL(2, heap -> size);
@@ -146,8 +146,7 @@ void testing_dequeue()
   CU_ASSERT_EQUAL(dequeued, dequeue(heap));
   dequeued = heap -> data[1];
   CU_ASSERT_EQUAL(dequeued, dequeue(heap));
-  CU_ASSERT_PTR_NULL(dequeue(heap)); //como tem 3 itens na heap, e demos 3 dequeues, obrigatoriamente tem que retornar null
-  //Calma, dará heap underflow, mas faz parte do teste
+  CU_ASSERT_PTR_NULL(dequeue(heap)); 
 }
 
 int main()

@@ -66,34 +66,8 @@ void Union(int x, int y)
     parent[xParent] = yParent;
 }
 
-bool has_cycle(graph *new_graph, int edges, int vertices)
-{
-    int i;
-    //Percorrendo todos os vertices
-    for(i = 0; i < vertices; i++)
-    {
-        adj *current_node = new_graph -> vertices[i];
-        //Percorrendo a lista de adjacencia, verificando se o pai de x == y pois assim haverá ciclo, caso contrario nao havera
-        while(current_node != NULL)
-        {
-            int x = Find(i);
-            int y = Find(current_node -> item);
-
-            if(x == y)
-                return true;
-            else
-                Union(x, y);
-
-            current_node = current_node -> next;
-        }
-    }
-    return false;
-}
-
 int main()
 {
-    //Preenchenco o array de parent com -1
-    memset(parent, -1, sizeof(parent));
     int edges, vertices;
     scanf("%d%d", &edges, &vertices);
     graph *new_graph = create_graph();

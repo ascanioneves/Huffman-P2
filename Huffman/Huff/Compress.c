@@ -150,16 +150,8 @@ void compress(char *file_name)
     int file_char = 0;
     for(int i = 0; i < 256; i++)
         if(new_hash -> table[i] != NULL)
-        {
             enqueue(new_heap, new_hash -> table[i]);
-            file_char++;
-        }
-
-    if(file_char <= 1)
-    {
-        printf("Nao e possivel compactar um arquivo com um unico tipo de caractere\n");
-        return;
-    }
+   
 
     huff_node *root = construct_tree(new_heap); 
     

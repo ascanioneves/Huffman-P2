@@ -53,11 +53,10 @@ graph *create_graph()
 
 int Find(int i)
 {
-    //Se sou pai retorne meu indice, se nao continue procurando ate achar o pai (parent[i] == -1)
-    return parent[i] == -1 ? i : parent[i] = Find(parent[i]);
+    return parent[i] == i ? i : parent[i] = Find(parent[i]);
 }
 
-//Unindo um vertice a um subconjunto, consequentemente os dois subconjuntos
+
 void Union(int x, int y)
 {
     int xParent = Find(x);
@@ -66,8 +65,19 @@ void Union(int x, int y)
     parent[xParent] = yParent;
 }
 
+void Initialize(int vertices)
+{
+    int i;
+
+    for(i = 0; i < vertices; i++)
+    {
+        parent[i] = i;
+    }
+}
+
 int main()
 {
+    memset(parent, -1, sizeof(parent));
     int edges, vertices;
     scanf("%d%d", &edges, &vertices);
     graph *new_graph = create_graph();
@@ -77,7 +87,9 @@ int main()
         int a, b;
         scanf("%d%d", &a, &b);
         add_edge(new_graph, a, b);
+        add_edge(new_graph, b, a);
+        Union(a, b);
     }   
-    printf("%s\n", has_cycle(new_graph, edges, vertices) ? "Yes" : "No");
+
     return 0;
 }
